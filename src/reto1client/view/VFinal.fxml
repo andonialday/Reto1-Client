@@ -12,13 +12,13 @@
         <URL value="@javaFXUIStyles.css" />
     </stylesheets>
     <children>
-      <Button id="btnClose" cancelButton="true" layoutX="178.0" layoutY="237.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="124.0" text="Close" />
-      <Label id="lblMessage" layoutX="165.0" layoutY="123.0" prefHeight="57.0" prefWidth="150.0" text="MENSAJE">
+      <Button id="btClose" fx:id="btClose" cancelButton="true" layoutX="178.0" layoutY="237.0" prefHeight="35.0" prefWidth="124.0" text="Close" />
+      <Label id="lblMessage" fx:id="lblMessage" layoutX="165.0" layoutY="123.0" prefHeight="57.0" prefWidth="150.0" text="MENSAJE">
          <font>
             <Font size="34.0" />
          </font>
       </Label>
-      <Hyperlink id="hlLogOut" layoutX="361.0" layoutY="14.0" prefHeight="35.0" prefWidth="105.0" text="Cerrar Sesión">
+      <Hyperlink id="hlLogOut" fx:id="hlLogOut" layoutX="361.0" layoutY="14.0" prefHeight="35.0" prefWidth="105.0" text="Cerrar Sesión">
          <font>
             <Font size="14.0" />
          </font>

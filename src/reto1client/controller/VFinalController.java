@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -21,18 +22,11 @@ import javafx.scene.control.Label;
 import reto1libraries.object.User;
 
 /**
- * FXML VFinal Controller class Controller for the VFinal JavaFX scene
+ * FXML VFinalController class Controller for the VFinal JavaFX scene
  *
  * @author Andoni Alday
  */
 public class VFinalController implements Initializable {
-
-    private String msg = "Bienvenido ";
-    private User usr;
-
-    public VFinalController(User usr) {
-        this.usr = usr;
-    }
 
     @FXML
     private Button btClose;
@@ -43,6 +37,17 @@ public class VFinalController implements Initializable {
     @FXML
     private Hyperlink hlLogOut;
 
+    private String msg;
+    private User usr;
+
+    public VFinalController(User usr) {
+        this.msg = "Bienvenido ";
+        this.usr = usr;
+        msg += usr.getFullName();
+        btClose.setMnemonicParsing(true);
+        btClose.setText("_Close");
+    }
+
     /**
      * Initializes the controller class.
      *
@@ -52,10 +57,13 @@ public class VFinalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        msg += usr.getFullName();
-        btClose.addEventHandler(ActionEvent.ACTION, this::closeVFinal);
+        //hlLogOut.addEventHandler(ActionEvent.ACTION, this::logOut);
+        btClose.setOnAction(this::closeVFinal);
     }
 
+    /**
+     *
+     */
     public void closeVFinal() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Está Cerrando el Programa");
@@ -63,7 +71,19 @@ public class VFinalController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             Platform.exit();
-        } 
+        }
+    }
+
+    /**
+     *
+     */
+    public void logOut() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cerrando Sesión");
+        alert.setHeaderText("¿Seguro que desea cerrar sesión?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+        }
     }
 
 }

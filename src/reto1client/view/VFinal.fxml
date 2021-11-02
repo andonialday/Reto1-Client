@@ -7,21 +7,21 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="360.0" prefWidth="480.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reto1client.controller.VFinalController">
+<Pane fx:id="VFinal" prefHeight="360.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reto1client.controller.VFinalController">
     <stylesheets>
         <URL value="@javaFXUIStyles.css" />
     </stylesheets>
     <children>
-      <Button id="btClose" fx:id="btClose" cancelButton="true" layoutX="178.0" layoutY="237.0" prefHeight="35.0" prefWidth="124.0" text="Close" />
-      <Label id="lblMessage" fx:id="lblMessage" layoutX="165.0" layoutY="123.0" prefHeight="57.0" prefWidth="150.0" text="MENSAJE">
-         <font>
-            <Font size="34.0" />
-         </font>
-      </Label>
-      <Hyperlink id="hlLogOut" fx:id="hlLogOut" layoutX="361.0" layoutY="14.0" prefHeight="35.0" prefWidth="105.0" text="Cerrar Sesión">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Hyperlink>
-   </children>
+        <Button id="btClose" fx:id="btnClose" cancelButton="true" layoutX="178.0" layoutY="237.0" prefHeight="35.0" prefWidth="124.0" text="Close"/>
+        <Label id="lblMessage" fx:id="lblMessage" layoutX="165.0" layoutY="123.0" prefHeight="57.0" prefWidth="150.0" text="MENSAJE">
+            <font>
+                <Font size="34.0" />
+            </font>
+        </Label>
+        <Hyperlink id="hlLogOut" fx:id="hlLogOut" layoutX="361.0" layoutY="14.0" prefHeight="35.0" prefWidth="105.0" text="Cerrar Sesión">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Hyperlink>
+    </children>
 </Pane>

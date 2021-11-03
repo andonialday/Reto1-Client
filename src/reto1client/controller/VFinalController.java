@@ -7,6 +7,7 @@ package reto1client.controller;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -43,24 +44,37 @@ public class VFinalController {
     private Stage stage;
     private String msg;
     private User usr;
-    private Logger logger;
+    private final Logger LOGGER = Logger.getLogger("package.class");
 
+    public VFinalController() {
+        msg = "Bienvenido ";
+        
+    }
+    
     /**
      *
      * @param root
      */
     public void initStage(Parent root) {
-        logger.info("Initializing Post SignIn process ...");
-        msg = "Bienvenido " + usr.getFullName();
+        LOGGER.info("Initializing Post SignIn process ...");
         Scene scene = new Scene(root);
-        stage.setScene(scene);
         stage.setTitle("VFinal");
         stage.setResizable(false);
+        stage.setScene(scene);
+        msg = "Bienvenido " + usr.getFullName();
         lblMessage.setText(msg);
         btnClose.setMnemonicParsing(true);
         btnClose.setText("_Close");
         btnClose.setOnAction(this::closeVFinal);
-        hlLogOut.setOnAction(this::logOut);
+        hlLogOut.setOnAction((event) -> {
+            try {
+                this.logOut(event);
+            } catch (IOException ex) {
+                Logger.getLogger(VFinalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        stage.show();
+        LOGGER.info("VFinal Window Showing");        
     }
 
     /**
@@ -70,13 +84,13 @@ public class VFinalController {
      * @param event the event linked to clicking on the button;
      */
     public void closeVFinal(ActionEvent event) {
-        logger.info("Requesting confirmation for application closing...");
+        LOGGER.info("Requesting confirmation for application closing...");
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Está Cerrando el Programa");
         alert.setHeaderText("¿Seguro que desea cerrar el programa?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            logger.info("Closing the application");
+            LOGGER.info("Closing the application");
             Platform.exit();
         }
     }
@@ -86,22 +100,22 @@ public class VFinalController {
      * session on the application and returns to the SignIn window
      *
      * @param event the event linked to clicking on the button;
+     * @throws java.io.IOException
      */
-    public void logOut(ActionEvent event) {
-        logger.info("Requesting confirmation for Signing Out...");
+    public void logOut(ActionEvent event) throws IOException {
+        LOGGER.info("Requesting confirmation for Signing Out...");
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Cerrando Sesión");
         alert.setHeaderText("¿Seguro que desea cerrar sesión?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            logger.info("Signing Out");
-        /*    FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("reto1client.view/VSignIn.fxml"));
+            LOGGER.info("Signing Out");
+            stage.close();     
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignIn.fxml"));
             Parent root = (Parent) loader.load();
-            VSignInController controller = ((VSignInController) loader.getController());
+            VSignInController controller = loader.getController();
             controller.setStage(this.stage);
-            controller.initStage(root);
-            */
+            controller.initStage(root);       
         }
     }
 

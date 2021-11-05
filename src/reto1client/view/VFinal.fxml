@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane id="Pane" prefHeight="360.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reto1client.controller.VFinalController">
+<Pane id="pFinal" fx:id="pFinal" prefHeight="360.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reto1client.controller.VFinalController">
     <stylesheets>
         <URL value="@javaFXUIStyles.css" />
     </stylesheets>

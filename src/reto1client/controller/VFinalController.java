@@ -21,7 +21,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import reto1libraries.object.User;
 
 /**
@@ -48,9 +50,8 @@ public class VFinalController {
 
     public VFinalController() {
         msg = "Bienvenido ";
-        
     }
-    
+
     /**
      *
      * @param root
@@ -58,8 +59,10 @@ public class VFinalController {
     public void initStage(Parent root) {
         LOGGER.info("Initializing Post SignIn process ...");
         Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("VFinal");
         stage.setResizable(false);
+        stage.setOnCloseRequest(this::closeVFinalX);
         stage.setScene(scene);
         msg = "Bienvenido " + usr.getFullName();
         lblMessage.setText(msg);
@@ -74,7 +77,7 @@ public class VFinalController {
             }
         });
         stage.show();
-        LOGGER.info("VFinal Window Showing");        
+        LOGGER.info("VFinal Window Showing");
     }
 
     /**
@@ -92,6 +95,28 @@ public class VFinalController {
         if (result.get() == ButtonType.OK) {
             LOGGER.info("Closing the application");
             Platform.exit();
+        } else {
+            LOGGER.info("Application closing cancelled");            
+        }
+    }
+
+    /**
+     * Method to create a confirmation popup when user uses the UI's innate
+     * close button (button X)
+     *
+     * @param event the event linked to clicking on the button;
+     */
+    public void closeVFinalX(WindowEvent event) {
+        LOGGER.info("Requesting confirmation for application closing...");
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Está Cerrando el Programa");
+        alert.setHeaderText("¿Seguro que desea cerrar el programa?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            LOGGER.info("Closing the application");
+            Platform.exit();
+        } else {
+            LOGGER.info("Application closing cancelled");            
         }
     }
 
@@ -110,12 +135,14 @@ public class VFinalController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             LOGGER.info("Signing Out");
-            stage.close();     
+            stage.close();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignIn.fxml"));
             Parent root = (Parent) loader.load();
             VSignInController controller = loader.getController();
             controller.setStage(this.stage);
-            controller.initStage(root);       
+            controller.initStage(root);
+        } else {
+            LOGGER.info("Signing Out cancelled");            
         }
     }
 

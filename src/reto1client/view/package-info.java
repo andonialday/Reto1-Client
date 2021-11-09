@@ -3,4 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/**
+ * Package with windows fxml views 
+ */
 package reto1client.view;

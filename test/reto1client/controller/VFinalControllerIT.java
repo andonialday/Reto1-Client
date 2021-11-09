@@ -5,10 +5,9 @@
  */
 package reto1client.controller;
 
-import java.io.IOException;
+import java.awt.Button;
+import java.awt.TextField;
 import java.util.concurrent.TimeoutException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -19,7 +18,7 @@ import org.testfx.api.FxToolkit;
 import static org.testfx.api.FxAssert.*;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.*;
-import reto1client.application.NewMain;
+import reto1client.application.ClientApplication;
 
 /**
  *
@@ -28,23 +27,8 @@ import reto1client.application.NewMain;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class VFinalControllerIT extends ApplicationTest {
 
-    private Parent root;
-
-    public VFinalControllerIT() throws IOException {
-        root = new FXMLLoader(getClass().getResource("/reto1client/view/VFinal.fxml")).load();
-    }
-
-    /**
-     * Start method to setupa window for each test
-     *
-     * @param stage
-     * @throws Exception
-     */
-    @Override
-    public void start(Stage stage) throws Exception {
-        //new ClientApplication().start(root);
-        //
-    }
+    private TextField txtLogin, txtPassword;
+    private Button btnSignIn;
 
     /**
      * BeforeClass method to setup a unique window for the tests
@@ -52,17 +36,30 @@ public class VFinalControllerIT extends ApplicationTest {
      * @throws TimeoutException
      */
     @BeforeClass
-    @Ignore
     public static void setUpClass() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(NewMain.class);
+        FxToolkit.setupApplication(ClientApplication.class);
+    }
+
+    /**
+     * Test designed to launch VFinal from the ClientApplication Main through
+     * VSignIn after a successfull SignIn
+     */
+    @Test
+    public void test0_initVFinal() {
+        clickOn("#txtLogin");
+        write("pepepa");
+        clickOn("#txtPassword");
+        write("Pepepa*2021");
+        clickOn("Sign In");
+        verifyThat("#pFinal", isVisible());
     }
 
     /**
      * Test designed to verify the correct initialization of the window
      */
     @Test
-    public void test0_initialState() {
+    public void test1_initialState() {
         verifyThat("#btnClose", isEnabled());
         verifyThat("#hlLogOut", isEnabled());
         verifyThat("#lblMessage", isVisible());
@@ -74,23 +71,10 @@ public class VFinalControllerIT extends ApplicationTest {
      * sequence
      */
     @Test
-    public void test1_btnCloseNO() {
+    public void test2_btnCloseNO() {
         clickOn("#btnClose");
         clickOn("Cancelar");
         verifyThat("#pFinal", isVisible());
-    }
-
-    /**
-     * Test designed to verify the btnClose works as intended: Triggers an
-     * AlerType in which clicking on "Aceptar" triggers the program ending
-     * sequence
-     */
-    @Test
-    @Ignore
-    public void test3_btnCloseOK() {
-        clickOn("#btnClose");
-        clickOn("Aceptar");
-        verifyThat("#pFinal", isInvisible());
     }
 
     /**
@@ -99,7 +83,7 @@ public class VFinalControllerIT extends ApplicationTest {
      * sequence
      */
     @Test
-    public void test2_hlSignOutNO() {
+    public void test3_hlSignOutNO() {
         clickOn("#hlLogOut");
         clickOn("Cancelar");
         verifyThat("#pFinal", isVisible());
@@ -111,11 +95,24 @@ public class VFinalControllerIT extends ApplicationTest {
      * sequence
      */
     @Test
-    @Ignore
+    //@Ignore
     public void test4_hlSignOutOK() {
         clickOn("#hlLogOut");
         clickOn("Aceptar");
-        verifyThat("#pFinal", isInvisible());
+        verifyThat("#pSignIn", isVisible());
     }
 
+    
+    /**
+     * Test designed to verify the btnClose works as intended: Triggers an
+     * AlerType in which clicking on "Aceptar" triggers the program ending
+     * sequence
+     */
+    @Test
+    @Ignore
+    public void test4_btnCloseOK() {
+        clickOn("#btnClose");
+        clickOn("Aceptar");
+        verifyThat("#pFinal", isInvisible());
+    }
 }

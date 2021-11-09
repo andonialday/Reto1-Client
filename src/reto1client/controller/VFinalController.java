@@ -53,17 +53,20 @@ public class VFinalController {
     }
 
     /**
+     * Window launcher method for the VFinal JavaFX viewwith its elements
      *
-     * @param root
+     * @param root receivedfrom the VSignIn, which allowsthe window to handle
+     * its children elements
      */
     public void initStage(Parent root) {
         LOGGER.info("Initializing Post SignIn process ...");
+        // Inicialización de la ventana
         Scene scene = new Scene(root);
-        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("VFinal");
         stage.setResizable(false);
         stage.setOnCloseRequest(this::closeVFinalX);
         stage.setScene(scene);
+        // Inicialización de variables
         msg = "Bienvenido " + usr.getFullName();
         lblMessage.setText(msg);
         btnClose.setMnemonicParsing(true);
@@ -96,7 +99,7 @@ public class VFinalController {
             LOGGER.info("Closing the application");
             Platform.exit();
         } else {
-            LOGGER.info("Application closing cancelled");            
+            LOGGER.info("Application closing cancelled");
         }
     }
 
@@ -116,7 +119,7 @@ public class VFinalController {
             LOGGER.info("Closing the application");
             Platform.exit();
         } else {
-            LOGGER.info("Application closing cancelled");            
+            LOGGER.info("Application closing cancelled");
         }
     }
 
@@ -142,22 +145,26 @@ public class VFinalController {
             controller.setStage(this.stage);
             controller.initStage(root);
         } else {
-            LOGGER.info("Signing Out cancelled");            
+            LOGGER.info("Signing Out cancelled");
         }
     }
 
     // Setters
     /**
+     * Setter for the user attribute, so the user's FullName can be shown on
+     * view startup
      *
-     * @param user
+     * @param user received freom VSignIn on correct Signin result
      */
     public void setUser(User user) {
         this.usr = user;
     }
 
     /**
+     * Setter for the Stage attribute , in which the view will be loaded
      *
-     * @param primaryStage
+     * @param primaryStage received from VSignIn, thestageon which all the views
+     * will appear
      */
     public void setStage(Stage primaryStage) {
         this.stage = primaryStage;

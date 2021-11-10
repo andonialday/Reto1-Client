@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import reto1libraries.exception.ClientServerConnectionException;
@@ -24,11 +25,14 @@ import reto1libraries.object.*;
  */
 public class ViewSignableImplementation implements Signable {
 
-    //Cambiar ip cuando la sepamos
-    private static final String SERVER = "127.0.0.1";
-    private static final Integer PORT = 5000;
+    //declare Object I/O to take User
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
+    //establish config file route 
+    private static final ResourceBundle configFile = ResourceBundle.getBundle("reto1client.controller.config");
+    private static final String SERVER = configFile.getString("IP");;
+    private static final Integer PORT = Integer.valueOf(configFile.getString("PORT"));
+    //declare loger
     private static final Logger LOGGER = Logger.getLogger("package.class");
 
     /**
@@ -43,26 +47,31 @@ public class ViewSignableImplementation implements Signable {
     @Override
     public User signIn(User usr) throws CredentialErrorException, DBConnectionException, ClientServerConnectionException {
 
+        //create the encapsulation
         Encapsulation enc = new Encapsulation();
-
+        //intro data on the encapsulation
         enc.setUser(usr);
         enc.setStatus(Status.PENDING);
         enc.setMethod(Method.SIGNIN);
+        
         LOGGER.info("Sign In procedure initiated");
+        //create client socket
         Socket client;
 
         try {
+            //establish socket parameter
             client = new Socket(SERVER, PORT);
-
+            //write oos with encapsulation data
             oos = new ObjectOutputStream(client.getOutputStream());
             oos.writeObject(enc);
-
+            //take ois object and load in to encapsulation
             ois = new ObjectInputStream(client.getInputStream());
             enc = (Encapsulation) ois.readObject();
-
+            //if to check encapsulation status
             if (null == enc.getStatus()) {
                 usr = enc.getUser();
             } else {
+                //treat the diferent tipe of error
                 switch (enc.getStatus()) {
                     case FAIL:
                         throw new CredentialErrorException("Credential Error");
@@ -73,13 +82,14 @@ public class ViewSignableImplementation implements Signable {
                         break;
                 }
             }
-
+            //catch oos/ois error
         } catch (IOException ex) {
             throw new ClientServerConnectionException("Failed to connect to server");
+            //catch class client error
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ViewSignableImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        //return User object
         return usr;
     }
 
@@ -94,37 +104,40 @@ public class ViewSignableImplementation implements Signable {
      */
     @Override
     public User signUp(User usr) throws LoginOnUseException, ClientServerConnectionException {
-
+        //create the encapsulation
         Encapsulation enc = new Encapsulation();
-
+        //intro data on the encapsulation
         enc.setUser(usr);
         enc.setStatus(Status.PENDING);
         enc.setMethod(Method.SIGNUP);
 
         LOGGER.info("Sign Up procedure initiated");
+        //create client socket
         Socket client;
 
         try {
+            //establish socket parameter
             client = new Socket(SERVER, PORT);
-
+            //write oos with encapsulation data
             oos = new ObjectOutputStream(client.getOutputStream());
             oos.writeObject(enc);
-
+            //take ois object and load in to encapsulation
             ois = new ObjectInputStream(client.getInputStream());
             enc = (Encapsulation) ois.readObject();
-
+            //take the user from encapsulation
             usr = enc.getUser();
-
+            //check encapsulation status
             if (enc.getStatus() == Status.FAIL) {
                 throw new LoginOnUseException("");
             }
-
+            //catch oos/ois error
         } catch (IOException ex) {
             throw new ClientServerConnectionException("Failed to connect to server");
+            //catch class encapsulation error
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ViewSignableImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        //return User object
         return usr;
     }
 

@@ -3,9 +3,9 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane id="pSignUp" fx:id="pSignUp" prefHeight="540.0" prefWidth="720.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reto1client.controller.VSignUpController">
@@ -20,7 +20,7 @@
         </TextField>
         <TextField id="txtLogin" fx:id="txtLogin" layoutX="217.0" layoutY="131.0" prefHeight="32.0" prefWidth="287.0" promptText="Login">
             <tooltip>
-                <Tooltip text="Tu nombre de usuario (mínimo 5 carácteres, máximo 25 carácteres) sólo puede contener letras, números y barra baja. sirve para iniciar sesión," />
+                <Tooltip text="Tu nombre de usuario (mínimo 5 carácteres, máximo 25 carácteres) sólo puede contener letras, números . sirve para iniciar sesión," />
             </tooltip>
         </TextField>
         <TextField id="txtEmail" fx:id="txtEmail" layoutX="217.0" layoutY="211.0" prefHeight="32.0" prefWidth="287.0" promptText="Email">
@@ -30,12 +30,12 @@
         </TextField>
         <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="217.0" layoutY="288.0" prefHeight="32.0" prefWidth="287.0" promptText="Password">
             <tooltip>
-                <Tooltip text="La contraseña debe contener al menos una mayúscula, una minúscula y un número. Debe tener al menos 6 dígitos y un máximo de 25." />
+                <Tooltip text="La contraseña debe contener al menos una mayúscula, una minúscula , un número y minimo un caracter especial. Debe tener al menos 6 dígitos y un máximo de 25." />
             </tooltip>
         </PasswordField>
         <PasswordField id="txtConfirmPassword" fx:id="txtConfirmPassword" layoutX="217.0" layoutY="367.0" prefHeight="32.0" prefWidth="287.0" promptText="Confirm Password">
             <tooltip>
-                <Tooltip text="La contraseña debe contener al menos una mayúscula, una minúscula y un número. Debe tener al menos 6 dígitos y un máximo de 25." />
+                <Tooltip text="El confirmar contraseña debe ser igual que la contraseña" />
             </tooltip>
         </PasswordField>
         <Button id="btBack" fx:id="btBack" cancelButton="true" layoutX="217.0" layoutY="463.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="108.0" text="Back" />

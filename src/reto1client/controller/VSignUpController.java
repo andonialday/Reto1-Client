@@ -35,7 +35,9 @@ import reto1libraries.logic.Signable;
 import reto1libraries.object.User;
 
 /**
- * FXML Controller class
+ * FXML Controller class Controlador de la ventana VSignUp que ejecuta todos los
+ * metodos para una correcta ejecucion de la misma
+ *
  *
  * @author Aitor Perez Andoni Alday
  */
@@ -53,7 +55,7 @@ public class VSignUpController {
     private TextField txtEmail;
     @FXML
     private Label lblEmail;
-     @FXML
+    @FXML
     private PasswordField txtPassword;
     @FXML
     private Label lblPassword;
@@ -65,54 +67,50 @@ public class VSignUpController {
     private Button btSignUp;
     @FXML
     private Button btBack;
-    private Boolean bName = false, bLogin = false, 
-                    bEmail = false, bPassword = false,
-                    bCPassword = false , bWarning = false;
+    private Boolean bName = false, bLogin = false,
+            bEmail = false, bPassword = false,
+            bCPassword = false, bWarning = false;
 
     @FXML
     private Label label;
-
+    //Patron para el email permite Mayusculas,Minusculas,numeros y es obligatorio usar este formato 
+    //(prueba@prueba.com)
     private final Pattern pattern = Pattern
             .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+    //Patron para el Login que solo permite Mayusculas,Minusculas,numeros y no admite espacios.
     private final Pattern log = Pattern
             .compile("^[A-Za-z0-9-]*$");
-
+    //Patron para la Contraseña requiere y permite  Numeros,Mayusculas,Minusculas,Simbolos especiales y no admite espacios
     private final Pattern pass = Pattern
             .compile("^.*(?=.{6,25})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+*=]).*$");
-    
+    //Patron para el nombre requiere y permite Mayusculas,Minusculas,Numeros y espacios.
     private final Pattern namePat = Pattern
             .compile("^[A-Za-z0-9]*[A-Za-z0-9 ][A-Za-z0-9 ]*$");
-
-    @FXML
-    private void mostrarAlertWarning(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setHeaderText(null);
-        alert.setTitle("Info");
-        alert.setContentText("Warning en la aplica");
-        alert.showAndWait();
-    }
 
     private String name, login, email, password, cpassword, warning;
 
     private Stage stage;
 
     private static Logger LOGGER = Logger.getLogger("package.class");
+
     /**
      * Initializes the controller class.
      *
-     * @param root 
+     * @param root Elemento recibido desde la ventana VSignIn que permite que la
+     * ventana muestre sus elementos hijos (Cuadros de texto,Botones...)
      */
     public void initStage(Parent root) {
-        // TODO
+
         Scene scene = new Scene(root);
-        
+        scene.getStylesheets().add("/reto1client/view/javaFXUIStyles.css");
         stage.setTitle("VSignUp");
         stage.setResizable(false);
-       
+
         stage.setOnCloseRequest(this::closeVSignUpX);
         stage.setScene(scene);
         txtName.requestFocus();
+
         toolTips();
         lblVisible();
         btSignUp.setOnAction(this::signUp);
@@ -123,7 +121,7 @@ public class VSignUpController {
         txtEmail.textProperty().addListener(this::txtEmailVal);
         txtPassword.textProperty().addListener(this::txtPasswordVal);
         txtConfirmPassword.textProperty().addListener(this::txtConfirmPasswordVal);
-       
+
         stage.show();
 
     }
@@ -145,7 +143,7 @@ public class VSignUpController {
      */
     public void lblVisible() {
         lblName.setVisible(false);
-       
+
         lblLogin.setVisible(false);
         lblEmail.setVisible(false);
         lblPassword.setVisible(false);
@@ -153,8 +151,9 @@ public class VSignUpController {
     }
 
     /**
-     * Metodo para validar que el texto del campo Name 
-     * una vez eliminados los espacios del principio y del final no es nulo
+     * Metodo para validar que el texto del campo Name una vez eliminados los
+     * espacios del principio y del final no es nulo
+     *
      * @param observableValue Campo a validar campo texto Name
      * @param oldValue Valor previo del texto
      * @param newValue Valor que se va a validar
@@ -165,19 +164,20 @@ public class VSignUpController {
             String newValue) {
         if (!newValue.trim().equals("")) {
             bName = true;
-            txtName.setStyle("#TextField");
+
         } else {
 
             bName = false;
-            txtName.setStyle("#TextField");
+
         }
-        
+
         buttonActivation();
     }
 
     /**
-     * Metodo para validar que el texto del campo Login 
-     * una vez eliminados los espacios del principio y del final no es nulo
+     * Metodo para validar que el texto del campo Login una vez eliminados los
+     * espacios del principio y del final no es nulo
+     *
      * @param observableValue Campo a validar campo texto Login
      * @param oldValue Valor previo del texto
      * @param newValue Valor que se va a validar
@@ -187,19 +187,20 @@ public class VSignUpController {
             String newValue) {
         if (!newValue.trim().equals("")) {
             bLogin = true;
-            txtLogin.setStyle("#TextField");
+
         } else {
 
             bLogin = false;
-            txtLogin.setStyle("#TextField");
+
         }
 
         buttonActivation();
     }
 
     /**
-     * Metodo para validar que el texto del campo Email 
-     * una vez eliminados los espacios del principio y del final no es nulo
+     * Metodo para validar que el texto del campo Email una vez eliminados los
+     * espacios del principio y del final no es nulo
+     *
      * @param observableValue Campo a validar campo texto Email
      * @param oldValue Valor previo del texto
      * @param newValue Valor que se va a validar
@@ -209,19 +210,20 @@ public class VSignUpController {
             String newValue) {
         if (!newValue.trim().equals("")) {
             bEmail = true;
-            txtEmail.setStyle("#TextField");
+
         } else {
 
             bEmail = false;
-            txtEmail.setStyle("#TextField");
+
         }
 
         buttonActivation();
     }
 
     /**
-     * Metodo para validar que el texto del campo Name 
-     * una vez eliminados los espacios del principio y del final no es nulo
+     * Metodo para validar que el texto del campo Name una vez eliminados los
+     * espacios del principio y del final no es nulo
+     *
      * @param observableValue Campo a validar campo texto Password
      * @param oldValue Valor previo del texto
      * @param newValue Valor que se va a validar
@@ -231,19 +233,20 @@ public class VSignUpController {
             String newValue) {
         if (!newValue.trim().equals("")) {
             bPassword = true;
-            txtPassword.setStyle("#TextField");
+
         } else {
 
             bPassword = false;
-            txtPassword.setStyle("#TextField");
+
         }
 
         buttonActivation();
     }
 
     /**
-     * Metodo para validar que el texto del campo Confirm Password 
-     * una vez eliminados los espacios del principio y del final no es nulo
+     * Metodo para validar que el texto del campo Confirm Password una vez
+     * eliminados los espacios del principio y del final no es nulo
+     *
      * @param observableValue Campo a validar campo texto Confirm Password
      * @param oldValue Valor previo del texto
      * @param newValue Valor que se va a validar
@@ -253,11 +256,11 @@ public class VSignUpController {
             String newValue) {
         if (!newValue.trim().equals("")) {
             bCPassword = true;
-            txtConfirmPassword.setStyle("#TextField");
+
         } else {
 
             bCPassword = false;
-            txtConfirmPassword.setStyle("#TextField");
+
         }
 
         buttonActivation();
@@ -266,9 +269,9 @@ public class VSignUpController {
     /**
      * Metodo para que ejecuta la validacion del contenido de los campos
      * ejecutando un metodo de registro si los campos son validos y sino
-     * ejecutando mensaje de error y mostrando las indicaciones de error
-     * para cada campo(Label y tooltip).
-     * 
+     * ejecutando mensaje de error y mostrando las indicaciones de error para
+     * cada campo(Label y tooltip).
+     *
      * @param event Metodo se ejecuta al pulsar el boton SignUp
      */
     public void signUp(ActionEvent event) {
@@ -278,73 +281,85 @@ public class VSignUpController {
         email = txtEmail.getText().trim();
         password = txtPassword.getText().trim();
         cpassword = txtConfirmPassword.getText().trim();
-        
+
+        //Comprobacion si el nombre cumple los requisitos
+        // El Name tendrá máximo 25 carácteres alfanuméricos
+        //(se admiten espacios, pero si comienza o termina con espacios, estos serán ignorados)
         Matcher matchname = namePat.matcher(name);
         if (name.length() <= 25 && matchname.matches()) {
-       
+
             lblName.setVisible(false);
         } else {
-           
-                warning += txtName.getPromptText();
-                bWarning=true;
-            
+
+            warning += txtName.getPromptText();
+            bWarning = true;
+
             lblName.setVisible(true);
             bName = false;
-            txtName.setStyle("-fx-border-color:red;");
+
             txtName.setText("");
-            
+
         }
-            Matcher matchlog = log.matcher(login);
+        //Comprobacion si el login cumple los requisitos
+        // El Login debe ser mínimo 5 carácteres, máximo 25, alfanuméricos (no se admiten espacios)
+        Matcher matchlog = log.matcher(login);
         if (login.length() <= 25 && login.length() >= 5 && matchlog.matches()) {
             lblLogin.setVisible(false);
 
         } else {
-            if(!bWarning){
+            if (!bWarning) {
                 warning += txtLogin.getPromptText();
-                bWarning=true;
-            }else{
+                bWarning = true;
+            } else {
                 warning += ", " + txtLogin.getPromptText();
             }
             lblLogin.setVisible(true);
 
             bLogin = false;
-            txtLogin.setStyle("-fx-border-color:red;");
-            txtLogin.setText("");
-            
-        }
 
+            txtLogin.setText("");
+
+        }
+        //Comprobacion si el email cumple con los parametros
+        // El Email deberá cumplir comprobación de ser email (patrón) y máximo 50 carácteres (no se admiten espacios)
         Matcher matcher = pattern.matcher(email);
         if (email.length() <= 50 && matcher.matches()) {
 
             lblEmail.setVisible(false);
         } else {
-            if(!bWarning){
+            if (!bWarning) {
                 warning += txtEmail.getPromptText();
-                bWarning=true;
-            }else{
+                bWarning = true;
+            } else {
                 warning += ", " + txtEmail.getPromptText();
             }
-            
+
             lblEmail.setVisible(true);
             bEmail = false;
-            txtEmail.setStyle("validateError");
+
             txtEmail.setText("");
+
         }
+        //Comprobacion si la contraseña cumple los parametros
+        //La contraseña deberá ser de mínimo 6 carácteres, máximo 25, y DEBE
+        //contener carácteres alfanuméricos (mayus, minus , numéricos y no se admiten espacios)
+        //y mínimo un carácter especial (*, %, $, etc...)
+
         Matcher matchpass = pass.matcher(password);
-        if (password.length() <= 25 && matchpass.matches()) {
+        if (password.length() >= 6 && password.length() <= 25 && matchpass.matches()) {
             lblPassword.setVisible(false);
         } else {
-            
-            if(!bWarning){
+
+            if (!bWarning) {
                 warning += txtPassword.getPromptText();
-                bWarning=true;
-            }else{
+                bWarning = true;
+            } else {
                 warning += ", " + txtPassword.getPromptText();
             }
-            
+
             lblPassword.setVisible(true);
             bPassword = false;
-            txtPassword.setStyle("validateError");
+
             txtPassword.setText("");
 
         }
@@ -352,18 +367,18 @@ public class VSignUpController {
         if (password.equalsIgnoreCase(cpassword) && bPassword) {
             lblCPassword.setVisible(false);
         } else {
-            if(!bWarning){
+            if (!bWarning) {
                 warning += txtConfirmPassword.getPromptText();
-                bWarning=true;
-            }else{
+                bWarning = true;
+            } else {
                 warning += ", " + txtConfirmPassword.getPromptText();
             }
             lblCPassword.setVisible(true);
             bCPassword = false;
-            txtConfirmPassword.setStyle("validateError");
+
             txtConfirmPassword.setText("");
         }
-
+        //Secuencia para dar foco al primer campo erroneo
         if (!bName) {
             txtName.requestFocus();
         } else if (!bLogin) {
@@ -376,7 +391,7 @@ public class VSignUpController {
             txtConfirmPassword.requestFocus();
         } else {
             signUp();
-        } 
+        }
         if (bWarning) {
             warning();
         }
@@ -388,7 +403,7 @@ public class VSignUpController {
     public void buttonActivation() {
         if (bName && bLogin && bEmail && bPassword && bCPassword) {
             btSignUp.setDisable(false);
-            bWarning=false;
+            bWarning = false;
         } else {
             btSignUp.setDisable(true);
 
@@ -397,11 +412,11 @@ public class VSignUpController {
     }
 
     /**
-     *  Metodo para registrar al usuario en la base de datos si todos los datos 
+     * Metodo para registrar al usuario en la base de datos si todos los datos
      * estan correctos.
      */
     public void signUp() {
-          LOGGER.info("Sign In procedure initiated");
+        LOGGER.info("Sign In procedure initiated");
         User user = new User();
         user.setFullName(name);
         user.setLogin(login);
@@ -411,39 +426,44 @@ public class VSignUpController {
         User usr = null;
         try {
             usr = sig.signUp(user);
+
+            Alert altInfoSignUp = new Alert(AlertType.INFORMATION);
+            altInfoSignUp.setTitle("SignUp Completado");
+            altInfoSignUp.setHeaderText(null);
+            altInfoSignUp.setContentText("Registro Exitoso, redireccionando a ventana de SignIn");
+            altInfoSignUp.showAndWait();
+
         } catch (ClientServerConnectionException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("System Error");
-            alert.setHeaderText("Could not Connect to the Server");
-            alert.setContentText("The application could not connect to the server"
+            Alert altErrorSC = new Alert(AlertType.ERROR);
+            altErrorSC.setTitle("System Error");
+            altErrorSC.setHeaderText("Could not Connect to the Server");
+            altErrorSC.setContentText("The application could not connect to the server"
                     + "\n The Server may be busy with too many incoming requests, "
                     + "try again later, if this error continues, contact support or check server availability");
+            altErrorSC.showAndWait();
         } catch (DBConnectionException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("System Error");
-            alert.setHeaderText("Could not Connect to the DataBase");
-            alert.setContentText("The server could not register your info, try again later. "
+            Alert altErrorDB = new Alert(AlertType.ERROR);
+            altErrorDB.setTitle("System Error");
+            altErrorDB.setHeaderText("Could not Connect to the DataBase");
+            altErrorDB.setContentText("The server could not register your info, try again later. "
                     + "If this error persists, contact support or check the DataBase availability");
-            alert.showAndWait();
+            altErrorDB.showAndWait();
 
         } catch (LoginOnUseException e) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Look, a Warning Dialog");
-            alert.setContentText("Careful with the next step!");
-            alert.showAndWait();
+            Alert altWarningLog = new Alert(AlertType.WARNING);
+            altWarningLog.setTitle("Login on use");
+            altWarningLog.setHeaderText("Login already on use.");
+            altWarningLog.setContentText("The text value input for the login field is allready on use on the DataBase."
+                    + "You may allready be registered on the database. If not another user is using that login, you"
+                    + "will have to use another one.");
+            altWarningLog.showAndWait();
         }
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("SignUp Completado");
-        alert.setHeaderText(null);
-        alert.setContentText("Registro Exitoso, redireccionando a ventana de SignIn");
-        alert.showAndWait();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignIn.fxml"));
         try {
             Parent root = (Parent) loader.load();
             VSignInController controller = ((VSignInController) loader.getController());
             //controller.setStage(this.stage);
-           // controller.initStage(root);
+            // controller.initStage(root);
         } catch (IOException ex) {
             Logger.getLogger(VSignUpController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -451,24 +471,24 @@ public class VSignUpController {
 
     /**
      * Metodo para asignarle el stage a la ventana
+     *
      * @param primaryStage Espacio donde se va a mostrar la ventana
      */
     public void setStage(Stage primaryStage) {
         this.stage = primaryStage;
     }
+
     /**
      * Metodo para lanzar una alerta de Warning
      */
     private void warning() {
         Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Look, a Warning Dialog");
-            alert.setContentText(warning);
+        alert.setTitle("Advertencia");
+        alert.setHeaderText("Campos introducidos no validos");
+        alert.setContentText(warning);
 
-            alert.showAndWait();
+        alert.showAndWait();
     }
-
-
 
     /**
      * Method to create a confirmation popup when user uses the UI's innate
@@ -487,6 +507,7 @@ public class VSignUpController {
             Platform.exit();
         }
     }
+
     /**
      * Method of the LogOut Hyperlink (hlLogOut) that nds thecurrent users
      * session on the application and returns to the SignIn window
@@ -494,7 +515,7 @@ public class VSignUpController {
      * @param event the event linked to clicking on the button;
      * @throws java.io.IOException
      */
-    public void backSingIn(ActionEvent event){
+    public void backSingIn(ActionEvent event) {
         LOGGER.info("Volviendo a ventana SignIn");
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Volver a SignIn");
@@ -506,15 +527,15 @@ public class VSignUpController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignIn.fxml"));
             try {
                 Parent root = (Parent) loader.load();
-                 VSignInController controller = loader.getController();
-              //  controller.setStage(this.stage);
-               // controller.initStage(root);
+                VSignInController controller = loader.getController();
+                controller.setStage(this.stage);
+                controller.initStage(root);
             } catch (IOException ex) {
                 Logger.getLogger(VSignUpController.class.getName())
                         .log(Level.SEVERE, null, ex);
             }
-           
+
         }
     }
-    
+
 }

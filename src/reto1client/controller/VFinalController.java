@@ -21,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import reto1libraries.object.User;
@@ -46,16 +45,16 @@ public class VFinalController {
     private Stage stage;
     private String msg;
     private User usr;
-    private final Logger LOGGER = Logger.getLogger("package.class");
+    private static final Logger LOGGER = Logger.getLogger("package.class");
 
     public VFinalController() {
         msg = "Bienvenido ";
     }
 
     /**
-     * Window launcher method for the VFinal JavaFX viewwith its elements
+     * Window launcher method for the VFinal JavaFX view with its elements
      *
-     * @param root receivedfrom the VSignIn, which allowsthe window to handle
+     * @param root received from the VSignIn, which allows the window to handle
      * its children elements
      */
     public void initStage(Parent root) {

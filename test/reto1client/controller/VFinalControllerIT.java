@@ -21,6 +21,11 @@ import static org.testfx.matcher.base.NodeMatchers.*;
 import reto1client.application.ClientApplication;
 
 /**
+ * Test class for the VFinalController, testing the functionality of the VFinal.
+ *
+ * Note: the test0_initVFinal should never be ignored, as it is the one
+ * responsible of running the application from the launching point to the
+ * windowtobe tested itself
  *
  * @author Andoni Alday
  */
@@ -43,7 +48,13 @@ public class VFinalControllerIT extends ApplicationTest {
 
     /**
      * Test designed to launch VFinal from the ClientApplication Main through
-     * VSignIn after a successfull SignIn
+     * VSignIn after a successfull SignIn.
+     *
+     * It will only work if the Server application is running, the connection
+     * between CLientand Serverworks and the DB is onlyne with the
+     * login-password credentials to be used on it. If this test fails, the
+     * others will automatically do so, as the window will not load
+     *
      */
     @Test
     public void test0_initVFinal() {
@@ -102,7 +113,6 @@ public class VFinalControllerIT extends ApplicationTest {
         verifyThat("#pSignIn", isVisible());
     }
 
-    
     /**
      * Test designed to verify the btnClose works as intended: Triggers an
      * AlerType in which clicking on "Aceptar" triggers the program ending

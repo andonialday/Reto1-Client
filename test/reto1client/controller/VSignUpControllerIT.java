@@ -6,6 +6,7 @@
 package reto1client.controller;
 
 import java.util.concurrent.TimeoutException;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.junit.Test;
@@ -14,12 +15,11 @@ import org.testfx.api.FxToolkit;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
-import reto1client.application.PruebasBorrar;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.runners.MethodSorters;
 import org.testfx.matcher.base.NodeMatchers;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
+import reto1client.application.ClientApplication;
 
 /**
  * Clase para testear la vetana de SignUp el test TestA_Init() no se puede

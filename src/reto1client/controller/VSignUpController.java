@@ -25,7 +25,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import reto1libraries.exception.ClientServerConnectionException;
@@ -513,7 +512,6 @@ public class VSignUpController {
      * session on the application and returns to the SignIn window
      *
      * @param event the event linked to clicking on the button;
-     * @throws java.io.IOException
      */
     public void backSingIn(ActionEvent event) {
         LOGGER.info("Volviendo a ventana SignIn");

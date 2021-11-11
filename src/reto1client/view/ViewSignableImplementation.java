@@ -140,5 +140,4 @@ public class ViewSignableImplementation implements Signable {
         //return User object
         return usr;
     }
-
 }

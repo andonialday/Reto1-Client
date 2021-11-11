@@ -46,5 +46,4 @@ public class ClientApplication extends Application {
         controller.initStage(root);
 
     }
-
 }

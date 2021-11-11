@@ -18,11 +18,15 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 
 /**
- *
+ * Test on the Sign In window
+ * 
  * @author Jaime San Sebastián
  */
+
+//Sort the tests by method order.
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
-public class VSignInControllerTest extends ApplicationTest{
+
+public class VSignInControllerIT extends ApplicationTest{
 
     private TextField txtLogin;
     private TextField txtPassword;
@@ -37,7 +41,8 @@ public class VSignInControllerTest extends ApplicationTest{
     }
 
     /**
-     * Test of initial stage of login view
+     * Test of initial stage of login view.
+     * SignIn button disabled, Exit button and hyperlink SignUp enabled.
      */
     @Test
     public void test01_InitialState() {
@@ -48,7 +53,8 @@ public class VSignInControllerTest extends ApplicationTest{
 
     /**
      * Test that the SignIn button is disabled if the username or password fields are empty
-     * and the SignIn button is enabled if the username and password are full
+     * and enabled if username and password are complete.
+     * @throws java.lang.InterruptedException
      */
     @Test
     public void test02_SignInEnabledOrDisabled() throws InterruptedException {
@@ -70,7 +76,9 @@ public class VSignInControllerTest extends ApplicationTest{
     }
     
     /**
-     * Test that if the username and password are incorrect, it does not enter the Welcome window
+     * Test that if the username and password are not correct, 
+     * do not enter the welcome window and an alert panel appears.
+     * @throws java.lang.InterruptedException
      */
     @Test
     public void test03_SignInIncorrect() throws InterruptedException {
@@ -85,8 +93,9 @@ public class VSignInControllerTest extends ApplicationTest{
     }
     
      /**
-     * Test that the application does not close if the exit and cancel button is pressed
-     * 
+     * We press the Exit button and a confirmation panel will appear.
+     * If we press the Cancel button we return to the previous window.
+     * @throws java.lang.InterruptedException
      */
     @Test
     public void test04_ExitButton() throws InterruptedException {
@@ -96,7 +105,10 @@ public class VSignInControllerTest extends ApplicationTest{
     }
     
     /**
-     * Test that the sign up view is open when the signup hyperlink is pressed
+     * Test that the Sign Up view is open when the SignUp hyperlink is pressed.
+     * If we press the Back button in the Sign Up window, 
+     * we return to the Sing In window with the username and password fields empty.
+     * @throws java.lang.InterruptedException
      */
     @Test
     public void test05_SignUpButton() throws InterruptedException {
@@ -110,7 +122,10 @@ public class VSignInControllerTest extends ApplicationTest{
     }
     
     /**
-     * Test that if the username and password are correct, enter the Welcome window
+     * Test that if the username and password are correct, enter the Welcome window.
+     * If we click the Close Session hyperlink button in the Final window, 
+     * we return to the Sign In window with empty fields.
+     * @throws java.lang.InterruptedException
      */
     @Test
     public void test06_SignInCorrect() throws InterruptedException {

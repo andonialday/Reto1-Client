@@ -44,7 +44,7 @@ public class VSignInController {
 
     private Stage stage;
     /**
-     * Set the stage
+     * Sets the stage
      * @param stage to set
      */
     public void setStage(Stage stage) {
@@ -109,7 +109,7 @@ public class VSignInController {
     }
 
     /**
-     * Shows the buttons that are enabled or disabled for the user when we enter the Log In window
+     * Shows the buttons that are enabled or disabled for the user when we enter the Sign In window
      * @param event 
      */
     private void handleWindowShowing(WindowEvent event) {
@@ -203,7 +203,7 @@ public class VSignInController {
 
     /**
      * This method is executed when the user clicks the hyperlink SignUp.
-     * The SignUp window will open.
+     * The Sign Up window will open.
      * @param event 
      */
     @FXML

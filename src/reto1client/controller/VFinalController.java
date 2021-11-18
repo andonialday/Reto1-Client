@@ -71,6 +71,7 @@ public class VFinalController {
         btnClose.setMnemonicParsing(true);
         btnClose.setText("_Close");
         btnClose.setOnAction(this::closeVFinal);
+        // Iniciacion de 
         hlLogOut.setOnAction((event) -> {
             try {
                 this.logOut(event);
@@ -90,10 +91,11 @@ public class VFinalController {
      */
     public void closeVFinal(ActionEvent event) {
         LOGGER.info("Requesting confirmation for application closing...");
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Está Cerrando el Programa");
-        alert.setHeaderText("¿Seguro que desea cerrar el programa?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Alert alertc = new Alert(AlertType.CONFIRMATION);
+        alertc.setTitle("Está Cerrando el Programa");
+        alertc.setHeaderText("¿Seguro que desea cerrar el programa?");
+        Optional<ButtonType> result = alertc.showAndWait();
+        // Si el usuario confirma se cierra la aplicación
         if (result.get() == ButtonType.OK) {
             LOGGER.info("Closing the application");
             Platform.exit();
@@ -103,38 +105,36 @@ public class VFinalController {
     }
 
     /**
-     * Method to create a confirmation popup when user uses the UI's innate
-     * close button (button X)
+     * Method to advise the user when uses the UI's innate close button (button
+     * X) that the application will close
      *
      * @param event the event linked to clicking on the button;
      */
     public void closeVFinalX(WindowEvent event) {
         LOGGER.info("Requesting confirmation for application closing...");
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Está Cerrando el Programa");
-        alert.setHeaderText("¿Seguro que desea cerrar el programa?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            LOGGER.info("Closing the application");
-            Platform.exit();
-        } else {
-            LOGGER.info("Application closing cancelled");
-        }
+        Alert alertx = new Alert(AlertType.INFORMATION);
+        alertx.setTitle("Está Cerrando el Programa");
+        alertx.setHeaderText("Va a cerrar el programa");
+        alertx.showAndWait();
+        LOGGER.info("Closing the application");
+        Platform.exit();
     }
 
     /**
-     * Method of the LogOut Hyperlink (hlLogOut) that nds thecurrent users
-     * session on the application and returns to the SignIn window
+     * Method of the LogOut Hyperlink (hlLogOut) that ends the current users
+     * session on the application and returns to the SignIn window after showing
+     * the user a confirmation popup
      *
      * @param event the event linked to clicking on the button;
      * @throws java.io.IOException
      */
     public void logOut(ActionEvent event) throws IOException {
         LOGGER.info("Requesting confirmation for Signing Out...");
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Cerrando Sesión");
-        alert.setHeaderText("¿Seguro que desea cerrar sesión?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Alert alertl = new Alert(AlertType.CONFIRMATION);
+        alertl.setTitle("Cerrando Sesión");
+        alertl.setHeaderText("¿Seguro que desea cerrar sesión?");
+        Optional<ButtonType> result = alertl.showAndWait();
+        // Si el usuario confirma se vuelve a VSignIn, sino, permanece en VFinal
         if (result.get() == ButtonType.OK) {
             LOGGER.info("Signing Out");
             stage.close();

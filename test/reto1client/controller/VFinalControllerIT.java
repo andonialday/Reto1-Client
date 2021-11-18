@@ -8,7 +8,8 @@ package reto1client.controller;
 import java.awt.Button;
 import java.awt.TextField;
 import java.util.concurrent.TimeoutException;
-import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.scene.text.Text;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -84,6 +85,8 @@ public class VFinalControllerIT extends ApplicationTest {
     @Test
     public void test2_btnCloseNO() {
         clickOn("#btnClose");
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Cerrando Sesión"));
         clickOn("Cancelar");
         verifyThat("#pFinal", isVisible());
     }
@@ -96,6 +99,8 @@ public class VFinalControllerIT extends ApplicationTest {
     @Test
     public void test3_hlSignOutNO() {
         clickOn("#hlLogOut");
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Cerrando Sesión"));
         clickOn("Cancelar");
         verifyThat("#pFinal", isVisible());
     }
@@ -109,6 +114,8 @@ public class VFinalControllerIT extends ApplicationTest {
     //@Ignore
     public void test4_hlSignOutOK() {
         clickOn("#hlLogOut");
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Cerrando Sesión"));
         clickOn("Aceptar");
         verifyThat("#pSignIn", isVisible());
     }
@@ -120,9 +127,11 @@ public class VFinalControllerIT extends ApplicationTest {
      */
     @Test
     @Ignore
-    public void test4_btnCloseOK() {
+    public void test5_btnCloseOK() {
+        test0_initVFinal();
         clickOn("#btnClose");
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Está Cerrando el Programa"));
         clickOn("Aceptar");
-        verifyThat("#pFinal", isInvisible());
     }
 }

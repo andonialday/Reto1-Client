@@ -100,7 +100,7 @@ public class VSignUpController {
      * ventana muestre sus elementos hijos (Cuadros de texto,Botones...)
      */
     public void initStage(Parent root) {
-
+        LOGGER.info("Initializing SignUp window... ");
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/reto1client/view/javaFXUIStyles.css");
         stage.setTitle("VSignUp");
@@ -110,6 +110,7 @@ public class VSignUpController {
         stage.setScene(scene);
         txtName.requestFocus();
 
+        LOGGER.info("Setting SignUp window elements' parameters... ");
         toolTips();
         lblVisible();
         btSignUp.setOnAction(this::signUp);
@@ -122,6 +123,7 @@ public class VSignUpController {
         txtConfirmPassword.textProperty().addListener(this::txtConfirmPasswordVal);
 
         stage.show();
+        LOGGER.info("SignUp window started... ");
 
     }
 
@@ -142,7 +144,6 @@ public class VSignUpController {
      */
     public void lblVisible() {
         lblName.setVisible(false);
-
         lblLogin.setVisible(false);
         lblEmail.setVisible(false);
         lblPassword.setVisible(false);
@@ -190,7 +191,6 @@ public class VSignUpController {
         } else {
 
             bLogin = false;
-
         }
 
         buttonActivation();
@@ -274,6 +274,7 @@ public class VSignUpController {
      * @param event Metodo se ejecuta al pulsar el boton SignUp
      */
     public void signUp(ActionEvent event) {
+        LOGGER.info("Validating inserted values... ");
         warning = "Los sigientes campos son erroneos: ";
         login = txtLogin.getText().trim();
         name = txtName.getText().trim();
@@ -299,6 +300,7 @@ public class VSignUpController {
             txtName.setText("");
 
         }
+        LOGGER.info("Name validated, Correct: " + bName);
         //Comprobacion si el login cumple los requisitos
         // El Login debe ser mínimo 5 carácteres, máximo 25, alfanuméricos (no se admiten espacios)
         Matcher matchlog = log.matcher(login);
@@ -319,6 +321,7 @@ public class VSignUpController {
             txtLogin.setText("");
 
         }
+        LOGGER.info("Login validated, Correct: " + bLogin);
         //Comprobacion si el email cumple con los parametros
         // El Email deberá cumplir comprobación de ser email (patrón) y máximo 50 carácteres (no se admiten espacios)
         Matcher matcher = pattern.matcher(email);
@@ -339,6 +342,7 @@ public class VSignUpController {
             txtEmail.setText("");
 
         }
+        LOGGER.info("Email validated, Correct: " + bEmail);
         //Comprobacion si la contraseña cumple los parametros
         //La contraseña deberá ser de mínimo 6 carácteres, máximo 25, y DEBE
         //contener carácteres alfanuméricos (mayus, minus , numéricos y no se admiten espacios)
@@ -377,6 +381,9 @@ public class VSignUpController {
 
             txtConfirmPassword.setText("");
         }
+
+        LOGGER.info("Password validated, Correct: " + bPassword);
+        LOGGER.info("Passwords Match: " + bCPassword);
         //Secuencia para dar foco al primer campo erroneo
         if (!bName) {
             txtName.requestFocus();
@@ -405,7 +412,6 @@ public class VSignUpController {
             bWarning = false;
         } else {
             btSignUp.setDisable(true);
-
         }
 
     }
@@ -426,12 +432,22 @@ public class VSignUpController {
         try {
             usr = sig.signUp(user);
 
+            LOGGER.info("Sign In Correct");
+
             Alert altInfoSignUp = new Alert(AlertType.INFORMATION);
             altInfoSignUp.setTitle("SignUp Completado");
             altInfoSignUp.setHeaderText(null);
             altInfoSignUp.setContentText("Registro Exitoso, redireccionando a ventana de SignIn");
             altInfoSignUp.showAndWait();
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignIn.fxml"));
+            try {
+                Parent root = (Parent) loader.load();
+                VSignInController controller = ((VSignInController) loader.getController());
+                controller.setStage(this.stage);
+                controller.initStage(root);
+            } catch (IOException ex) {
+                Logger.getLogger(VSignUpController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (ClientServerConnectionException e) {
             Alert altErrorSC = new Alert(AlertType.ERROR);
             altErrorSC.setTitle("System Error");
@@ -457,15 +473,6 @@ public class VSignUpController {
                     + "will have to use another one.");
             altWarningLog.showAndWait();
         }
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignIn.fxml"));
-        try {
-            Parent root = (Parent) loader.load();
-            VSignInController controller = ((VSignInController) loader.getController());
-            //controller.setStage(this.stage);
-            // controller.initStage(root);
-        } catch (IOException ex) {
-            Logger.getLogger(VSignUpController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -481,6 +488,7 @@ public class VSignUpController {
      * Metodo para lanzar una alerta de Warning
      */
     private void warning() {
+        LOGGER.info("Showing incorrect value fields");
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Advertencia");
         alert.setHeaderText("Campos introducidos no validos");
@@ -490,21 +498,19 @@ public class VSignUpController {
     }
 
     /**
-     * Method to create a confirmation popup when user uses the UI's innate
-     * close button (button X)
+     * Method to advise the user when uses the UI's innate
+     * close button (button X) that the application will close
      *
      * @param event the event linked to clicking on the button;
      */
     public void closeVSignUpX(WindowEvent event) {
         LOGGER.info("Requesting confirmation for application closing...");
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Está Cerrando el Programa");
-        alert.setHeaderText("¿Seguro que desea cerrar el programa?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            LOGGER.info("Closing the application");
-            Platform.exit();
-        }
+        Alert alertx = new Alert(AlertType.INFORMATION);
+        alertx.setTitle("Está Cerrando el Programa");
+        alertx.setHeaderText("Va a cerrar el programa");
+        alertx.showAndWait();
+        LOGGER.info("Closing the application");
+        Platform.exit();
     }
 
     /**

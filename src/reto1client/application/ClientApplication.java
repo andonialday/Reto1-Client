@@ -6,6 +6,7 @@
 package reto1client.application;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +35,7 @@ public class ClientApplication extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        
+        Logger.getLogger("Initializing client...");
         //get the route of the 1. View
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignIn.fxml"));
             

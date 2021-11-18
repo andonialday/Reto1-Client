@@ -6,9 +6,11 @@
 package reto1client.controller;
 
 import java.util.concurrent.TimeoutException;
+import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import org.junit.Test;
 import org.junit.BeforeClass;
 import org.testfx.api.FxToolkit;
@@ -193,81 +195,36 @@ public class VSignUpControllerIT extends ApplicationTest {
         write("PacoPico*P13dr4");
         clickOn("#btSignUp");
         clickOn("#btSignUp");
-        verifyThat(".alert", NodeMatchers.isVisible());
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Advertencia"));
         clickOn("Aceptar");
     }
-
-    /**
-     * Comprueba si al no tener conexion con el servidor si se muestra una
-     * Alerta de error de conexion con el servidor
-     */
-    @Test
-    public void TestJ_ErrorConnectToTheServer() {
-        vaciarCampos();
-        clickOn("#txtName");
-        write("Paco piedra");
-        clickOn("#txtLogin");
-        write("PacoPicaPiedra777");
-        clickOn("#txtEmail");
-        write("pacopicapiedra@picon.com");
-        clickOn("#txtPassword");
-        write("PacoPico*P13dr4");
-        clickOn("#txtConfirmPassword");
-        write("PacoPico*P13dr4");
-        clickOn("#btSignUp");
-        verifyThat(".alert", NodeMatchers.isVisible());
-        clickOn("Aceptar");
-    }
-
-    /**
-     * Comprueba si al tener conexion con el servidor pero no teniendo la base
-     * de datos si se muestra una Alerta de error de conexion con la base de
-     * datos
-     */
-    @Test
-    public void TestK_ErrorConnectToDB() {
-        vaciarCampos();
-        clickOn("#txtName");
-        write("Paco piedra");
-        clickOn("#txtLogin");
-        write("PacoPicaPiedra777");
-        clickOn("#txtEmail");
-        write("pacopicapiedra@picon.com");
-        clickOn("#txtPassword");
-        write("PacoPico*P13dr4");
-        clickOn("#txtConfirmPassword");
-        write("PacoPico*P13dr4");
-        clickOn("#btSignUp");
-        verifyThat(".alert", NodeMatchers.isVisible());
-        clickOn("Aceptar");
-    }
-
     /**
      * Comprueba si el usuario que estas registrando esta en uso
      */
     @Test
-    public void TestL_WarningLoginOnUse() {
+    public void TestJ_WarningLoginOnUse() {
         vaciarCampos();
         clickOn("#txtName");
-        write("Paco piedra");
+        write("Admin Administrador");
         clickOn("#txtLogin");
-        write("PacoPicaPiedra777");
+        write("admin1");
         clickOn("#txtEmail");
-        write("pacopicapiedra@picon.com");
+        write("admin.admin@admin.com");
         clickOn("#txtPassword");
         write("PacoPico*P13dr4");
         clickOn("#txtConfirmPassword");
         write("PacoPico*P13dr4");
         clickOn("#btSignUp");
-        verifyThat(".alert", NodeMatchers.isVisible());
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Login on use"));
         clickOn("Aceptar");
     }
-
     /**
      * Testea si el registro nuevo se hace correctamente
      */
     @Test
-    public void TestM_InfoLogOk() {
+    public void TestK_InfoLogOk() {
         vaciarCampos();
         clickOn("#txtName");
         write("Prueba12");
@@ -280,8 +237,60 @@ public class VSignUpControllerIT extends ApplicationTest {
         clickOn("#txtConfirmPassword");
         write("PacoPico*P13dr4");
         clickOn("#btSignUp");
-        verifyThat(".alert", NodeMatchers.isVisible());
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("SignUp Completado"));
         clickOn("Aceptar");
     }
+
+    /**
+     * Comprueba si al no tener conexion con el servidor si se muestra una
+     * Alerta de error de conexion con el servidor
+     */
+    @Test
+    public void TestL_ErrorConnectToTheServer() {
+        vaciarCampos();
+        clickOn("#txtName");
+        write("Paco piedra");
+        clickOn("#txtLogin");
+        write("PacoPicaPiedra777");
+        clickOn("#txtEmail");
+        write("pacopicapiedra@picon.com");
+        clickOn("#txtPassword");
+        write("PacoPico*P13dr4");
+        clickOn("#txtConfirmPassword");
+        write("PacoPico*P13dr4");
+        clickOn("#btSignUp");
+        Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("System Error"));
+        clickOn("Aceptar");
+    }
+
+    /**
+     * Comprueba si al tener conexion con el servidor pero no teniendo la base
+     * de datos si se muestra una Alerta de error de conexion con la base de
+     * datos
+     */
+    @Test
+    public void TestM_ErrorConnectToDB() {
+        vaciarCampos();
+        clickOn("#txtName");
+        write("Paco piedra");
+        clickOn("#txtLogin");
+        write("PacoPicaPiedra777");
+        clickOn("#txtEmail");
+        write("pacopicapiedra@picon.com");
+        clickOn("#txtPassword");
+        write("PacoPico*P13dr4");
+        clickOn("#txtConfirmPassword");
+        write("PacoPico*P13dr4");
+        clickOn("#btSignUp");
+       Node dialogPane = lookup(".dialog-pane").query();
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("System Error"));
+        clickOn("Aceptar");
+    }
+
+    
+
+    
 
 }

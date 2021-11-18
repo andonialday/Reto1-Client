@@ -37,21 +37,25 @@ import reto1libraries.object.User;
 public class VSignInController {
 
     /**
-     * Initializes the controller class.
-     * We use logger to record the activity of the application.
+     * Initializes the controller class. We use logger to record the activity of
+     * the application.
      */
     private static final Logger LOGGER = Logger.getLogger("package.class");
 
     private Stage stage;
+
     /**
      * Sets the stage
+     *
      * @param stage to set
      */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
     /**
      * Gets the stage
+     *
      * @return stage to get
      */
     public Stage getStage() {
@@ -75,9 +79,10 @@ public class VSignInController {
 
     /**
      * Initialize and show window
+     *
      * @param root
-     * @throws IOException 
-     */ 
+     * @throws IOException
+     */
     public void initStage(Parent root) throws IOException {
 
         LOGGER.info("Initializing Login stage.");
@@ -98,6 +103,7 @@ public class VSignInController {
 
         //Set Windows event handlers 
         stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::closeVSignIn);
 
         btnSignIn.setOnAction(this::signIn);
         btnExit.setOnAction(this::exit);
@@ -109,8 +115,10 @@ public class VSignInController {
     }
 
     /**
-     * Shows the buttons that are enabled or disabled for the user when we enter the Sign In window
-     * @param event 
+     * Shows the buttons that are enabled or disabled for the user when we enter
+     * the Sign In window
+     *
+     * @param event
      */
     private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Beginning LoginController::handleWindowShowing");
@@ -126,13 +134,14 @@ public class VSignInController {
         //SignUp hyperlink is enabled
         hyperSignUp.setDisable(false);
     }
-    
+
     /**
-     * This method is executed when the user presses the SignIn button.
-     * If the username and password are correct, the Welcome window will be displayed.
-     * If the username and password are incorrect, an information panel will be displayed 
-     * and the username and password fields will be emptied.
-     * @param event 
+     * This method is executed when the user presses the SignIn button. If the
+     * username and password are correct, the Welcome window will be displayed.
+     * If the username and password are incorrect, an information panel will be
+     * displayed and the username and password fields will be emptied.
+     *
+     * @param event
      */
     @FXML
     private void signIn(ActionEvent event) {
@@ -148,28 +157,16 @@ public class VSignInController {
         User usr = null;
         try {
             usr = sig.signIn(user);
-            if (usr.getLogin() != null) {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/reto1client/view/VFinal.fxml"));
-                    Parent root = (Parent) fxmlLoader.load();
-                    VFinalController controller = ((VFinalController) fxmlLoader.getController());
-                    Stage primaryStage = this.stage;
-                    controller.setUser(usr);
-                    controller.setStage(primaryStage);
-                    controller.initStage(root);
-                } catch (IOException ex) {
-                    LOGGER.info("Error trying to show post SignIn window");
-                }
-            } else {
-                LOGGER.info("Sign In Credential Error");
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("Username or password is incorrect");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    txtLogin.setText("");
-                    txtPassword.setText("");
-                }
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/reto1client/view/VFinal.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                VFinalController controller = ((VFinalController) fxmlLoader.getController());
+                Stage primaryStage = this.stage;
+                controller.setUser(usr);
+                controller.setStage(primaryStage);
+                controller.initStage(root);
+            } catch (IOException ex) {
+                LOGGER.info("Error trying to show post SignIn window");
             }
         } catch (ClientServerConnectionException e) {
             LOGGER.info("Error Connecting to Server");
@@ -202,12 +199,14 @@ public class VSignInController {
     }
 
     /**
-     * This method is executed when the user clicks the hyperlink SignUp.
-     * The Sign Up window will open.
-     * @param event 
+     * This method is executed when the user clicks the hyperlink SignUp. The
+     * Sign Up window will open.
+     *
+     * @param event
      */
     @FXML
     private void signUp(ActionEvent event) {
+        LOGGER.info("Initializing SignUp");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/reto1client/view/VSignUp.fxml"));
             Parent root = (Parent) fxmlLoader.load();
@@ -221,10 +220,12 @@ public class VSignInController {
     }
 
     /**
-     * This method is executed when the user presses the Exit button.
-     * A confirmation panel will appear, if you press the Accept button the application will close 
-     * and if you press the Cancel button you will return to the previous window.
-     * @param event 
+     * This method is executed when the user presses the Exit button. A
+     * confirmation panel will appear, if you press the Accept button the
+     * application will close and if you press the Cancel button you will return
+     * to the previous window.
+     *
+     * @param event
      */
     @FXML
     private void exit(ActionEvent event) {
@@ -234,6 +235,26 @@ public class VSignInController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             Platform.exit();
+        }
+    }
+    
+    /**
+     * Method to create a confirmation popup when user uses the UI's innate
+     * close button (button X)
+     *
+     * @param event the event linked to clicking on the button;
+     */
+    public void closeVSignIn(WindowEvent event) {
+        LOGGER.info("Requesting confirmation for application closing...");
+        Alert alertx = new Alert(AlertType.CONFIRMATION);
+        alertx.setTitle("Está Cerrando el Programa");
+        alertx.setHeaderText("¿Seguro que desea cerrar el programa?");
+        Optional<ButtonType> result = alertx.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            LOGGER.info("Closing the application");
+            Platform.exit();
+        } else {
+            LOGGER.info("Application closing cancelled");
         }
     }
 }

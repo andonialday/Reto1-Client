@@ -32,11 +32,11 @@ public class ViewSignableImplementation implements Signable {
     private static final ResourceBundle configFile = ResourceBundle.getBundle("reto1client.controller.config");
     private static final String SERVER = configFile.getString("IP");;
     private static final Integer PORT = Integer.valueOf(configFile.getString("PORT"));
-    //declare loger
+    //declare logger
     private static final Logger LOGGER = Logger.getLogger("package.class");
 
     /**
-     * Method to Sign In the Client in to the Data Base
+     * Method to SignIn the Client in to the Data Base
      * @param usr Asks a user to encapsulate in order to send it to the server
      * @return Returns a null or a complete user depending if it fails
      * @throws CredentialErrorException If the user is not correct
@@ -64,23 +64,22 @@ public class ViewSignableImplementation implements Signable {
             //write oos with encapsulation data
             oos = new ObjectOutputStream(client.getOutputStream());
             oos.writeObject(enc);
+            LOGGER.info("Sending data to the server,awaiting response");
             //take ois object and load in to encapsulation
             ois = new ObjectInputStream(client.getInputStream());
             enc = (Encapsulation) ois.readObject();
-            //if to check encapsulation status
-            if (null == enc.getStatus()) {
-                usr = enc.getUser();
-            } else {
-                //treat the diferent tipe of error
-                switch (enc.getStatus()) {
-                    case FAIL:
-                        throw new CredentialErrorException("Credential Error");
-                    case ERROR:
-                        throw new DBConnectionException("");
-                    default:
-                        usr = enc.getUser();
-                        break;
-                }
+            usr = enc.getUser();
+            //if + switch to check encapsulation status
+            if (null != enc.getStatus()) //check encapsulation status
+            switch (enc.getStatus()) {
+                case FAIL:
+                    throw new CredentialErrorException("Login already on usen on the Database");
+                case ERROR:
+                    throw new DBConnectionException("Failed to connect to the Database");
+                case PENDING:
+                    throw new ClientServerConnectionException("The server is busy");
+                default:
+                    break;
             }
             //catch oos/ois error
         } catch (IOException ex) {
@@ -103,7 +102,7 @@ public class ViewSignableImplementation implements Signable {
      * the server cause of the Server error
      */
     @Override
-    public User signUp(User usr) throws LoginOnUseException, ClientServerConnectionException {
+    public User signUp(User usr) throws LoginOnUseException, ClientServerConnectionException, DBConnectionException {
         //create the encapsulation
         Encapsulation enc = new Encapsulation();
         //intro data on the encapsulation
@@ -126,11 +125,17 @@ public class ViewSignableImplementation implements Signable {
             enc = (Encapsulation) ois.readObject();
             //take the user from encapsulation
             usr = enc.getUser();
-            //check encapsulation status
-            if (enc.getStatus() == Status.FAIL) {
-                throw new LoginOnUseException("");
+            if (null != enc.getStatus()) //check encapsulation status
+            switch (enc.getStatus()) {
+                case FAIL:
+                    throw new LoginOnUseException("Login already on usen on the Database");
+                case ERROR:
+                    throw new DBConnectionException("Failed to connect to the Database");
+                case PENDING:
+                    throw new ClientServerConnectionException("The server is busy");
+                default:
+                    break;
             }
-            //catch oos/ois error
         } catch (IOException ex) {
             throw new ClientServerConnectionException("Failed to connect to server");
             //catch class encapsulation error

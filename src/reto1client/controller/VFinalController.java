@@ -90,10 +90,10 @@ public class VFinalController {
      */
     public void closeVFinal(ActionEvent event) {
         LOGGER.info("Requesting confirmation for application closing...");
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Está Cerrando el Programa");
-        alert.setHeaderText("¿Seguro que desea cerrar el programa?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Alert alertc = new Alert(AlertType.CONFIRMATION);
+        alertc.setTitle("Está Cerrando el Programa");
+        alertc.setHeaderText("¿Seguro que desea cerrar el programa?");
+        Optional<ButtonType> result = alertc.showAndWait();
         if (result.get() == ButtonType.OK) {
             LOGGER.info("Closing the application");
             Platform.exit();
@@ -110,10 +110,10 @@ public class VFinalController {
      */
     public void closeVFinalX(WindowEvent event) {
         LOGGER.info("Requesting confirmation for application closing...");
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Está Cerrando el Programa");
-        alert.setHeaderText("¿Seguro que desea cerrar el programa?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Alert alertx = new Alert(AlertType.CONFIRMATION);
+        alertx.setTitle("Está Cerrando el Programa");
+        alertx.setHeaderText("¿Seguro que desea cerrar el programa?");
+        Optional<ButtonType> result = alertx.showAndWait();
         if (result.get() == ButtonType.OK) {
             LOGGER.info("Closing the application");
             Platform.exit();
@@ -131,10 +131,10 @@ public class VFinalController {
      */
     public void logOut(ActionEvent event) throws IOException {
         LOGGER.info("Requesting confirmation for Signing Out...");
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Cerrando Sesión");
-        alert.setHeaderText("¿Seguro que desea cerrar sesión?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Alert alertl = new Alert(AlertType.CONFIRMATION);
+        alertl.setTitle("Cerrando Sesión");
+        alertl.setHeaderText("¿Seguro que desea cerrar sesión?");
+        Optional<ButtonType> result = alertl.showAndWait();
         if (result.get() == ButtonType.OK) {
             LOGGER.info("Signing Out");
             stage.close();
